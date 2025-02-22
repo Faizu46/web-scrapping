@@ -22,13 +22,13 @@ This project demonstrates how to combine Node.js for web scraping using Puppetee
 git clone https://github.com/YourUsername/multi-stage-scraper.git
 cd multi-stage-scraper
 
-#Build The Docker image
+#Build The Docker image/
 docker buildx build --load -t multi-stage-scraper .
 
-#Run The Container
+#Run The Container/
 docker run -p 5000:5000 multi-stage-scraper
 
-#Access the Application
+#Access the Application/
 http://localhost:5000
 
 
