@@ -14,3 +14,21 @@ This project demonstrates how to combine Node.js for web scraping using Puppetee
   The Dockerfile builds a lean final image by separating the scraping and hosting stages.
 
 
+
+#How To Use My Project
+
+
+#Clone My Repository
+git clone https://github.com/YourUsername/multi-stage-scraper.git
+cd multi-stage-scraper
+
+#Build The Docker image
+docker buildx build --load -t multi-stage-scraper .
+
+#Run The Container
+docker run -p 5000:5000 multi-stage-scraper
+
+#Access the Application
+http://localhost:5000
+
+
