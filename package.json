@@ -1,0 +1,13 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "A Puppeteer scraper that extracts page data",
+  "main": "scrape.js",
+  "scripts": {
+    "start": "node scrape.js"
+  },
+  "dependencies": {
+    "puppeteer": "^20.0.0"
+  }
+}
+

@@ -1,0 +1,53 @@
+# ---------------- Stage 1: Node.js Scraper Stage ----------------
+FROM node:18-slim AS builder
+
+# Install Chromium and required dependencies
+RUN apt-get update && apt-get install -y \
+    chromium \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libnspr4 \
+    libnss3 \
+    libxss1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for Puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+WORKDIR /app
+
+# Copy Node.js project files and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy the scraping script
+COPY scrape.js .
+
+# Set a default scrape URL (can be overridden via environment variable)
+ENV SCRAPE_URL=https://example.com
+
+# Run the scraper to produce scraped_data.json
+RUN node scrape.js
+
+# ---------------- Stage 2: Python Hosting Stage ----------------
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy the scraped output from the builder stage
+COPY --from=builder /app/scraped_data.json ./scraped_data.json
+
+# Copy the Flask server file
+COPY server.py .
+
+# Install Flask
+RUN pip install Flask
+
+# Expose the Flask port
+EXPOSE 5000
+
+# Start the Flask app
+CMD ["python", "server.py"]
+
